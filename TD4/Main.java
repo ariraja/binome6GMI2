@@ -28,7 +28,7 @@ public class Main {
 		
 		
 		//9.b)
-		Point p1=new Point(1,2);
+		/*Point p1=new Point(1,2);
 		System.out.println("Nombre de points créés :"+Point.getCompteur());
 		Point p2=p1;
 		System.out.println("Nombre de points créés :"+Point.getCompteur());//1
@@ -37,8 +37,21 @@ public class Main {
 		System.out.println(p1==p2);//true
 		System.out.println("Nombre de points créés :"+Point.getCompteur());
 		System.out.println(p1==p3);//false
-		System.out.println("Nombre de points créés :"+Point.getCompteur());
+		System.out.println("Nombre de points créés :"+Point.getCompteur());*/
 		//On constate que qu'il y a bien 2 points qui ont été créé car p2 n'a pas été créé via le constructeur
+		
+		//Question 10
+		Point p1=new Point(0,0);
+		Point p2=new Point(1,4);
+		Point p3=new Point(3,2);
+		LigneBrisee lb = new LigneBrisee(new Point[3]);
+		System.out.println(lb.toString());
+		lb.addPoint(p1);
+		lb.addPoint(p2);
+		lb.addPoint(p3);
+		System.out.println(lb.toString());
+		lb=lb.deletePoint(p2);
+		System.out.println(lb.toString());
 		
 	}
 }
