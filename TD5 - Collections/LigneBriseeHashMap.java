@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class LigneBriseeMap {
+public class LigneBriseeHashMap {
     HashMap<Integer,Point> l;
     public static int taille = 2;//au moins 2 points
 
-    public LigneBriseeMap(HashMap<Integer, Point> l) {
+    public LigneBriseeHashMap(HashMap<Integer, Point> l) {
         this.l = l;
     }
 
@@ -25,7 +25,7 @@ public class LigneBriseeMap {
     }
 
     public static void setTaille(int taille) {
-        LigneBriseeMap.taille = taille;
+        LigneBriseeHashMap.taille = taille;
     }
 
     @Override
@@ -53,6 +53,12 @@ public class LigneBriseeMap {
     }
 
     public void nbPoints(){
-        
+        System.out.println("taille de"+this.l+" = "+this.l.size());
+    }
+
+    public void deletePoint(Point p)
+    {
+        this.l.remove(p);
+
     }
 }

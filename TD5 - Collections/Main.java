@@ -1,6 +1,9 @@
 package td5.ligneBrisee;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Main {
 	
 	public static void main(String[] args) {
@@ -84,6 +87,15 @@ public class Main {
 		//LinkedList<Point> ll=new LinkedList<Point>();
 		//Avantages : insertion et suppression simple
 		//Inconvénients : très couteux de faire get()
+
+		HashMap<Integer,Point> hm=new HashMap<Integer, Point>();
+		LigneBriseeHashMap lbhm=new LigneBriseeHashMap(hm);
+		lbhm.addPoint(p1,0);
+		lbhm.addPoint(p2,1);
+		lbhm.addPoint(p3,2);
+		System.out.println(lbhm.toString());
+		lbhm.deletePoint(p2);
+		System.out.println(lbhm.toString());
 
 	}
 }
