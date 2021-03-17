@@ -1,10 +1,10 @@
-
+import fr.eisti.ing1.java.cdmanager.data.*;
 
 import java.io.IOError;
 import java.util.Scanner;
-import fr.eisti.ing1.java.cdmanager.data.*;
 
-public class CDThequeManager {
+
+public class CDThequeManager{
 	/**
 	    * @param args (non utilisés ici)
 	    */
@@ -12,7 +12,6 @@ public class CDThequeManager {
 			CDTheque cds; // une cdthèque
 			int choix; // choix du menu
 
-			
 			
 			cds = new CDTheque();
 			choix=-1; 
@@ -167,10 +166,20 @@ public class CDThequeManager {
 			int nbrePistes;
 			//boolean erreur;
 			boolean operationOK;
-			
+
 			// lectures clavier
-			 // TODO
-			
+			System.out.println("Saisie d'un nouveau CD : ");
+			iSBN = saisieISBN();
+			artiste = lireInfo("   artiste");
+			titre = lireInfo("   titre album");
+			style = lireInfo("   style de l'album");
+			nbrePistes = saisieNbrePistes();
+			operationOK = cds.ajouterCD(iSBN, artiste, titre, style, nbrePistes);
+			if (operationOK) {
+				System.out.println("CD ajouté avec succès");
+			} else {
+				System.out.println("Problème dans l'ajout du CD");
+			}
 		}
 
 		/**
@@ -182,10 +191,18 @@ public class CDThequeManager {
 			long iSBN;
 		
 			System.out.println("Supprimer un CD par son ISBN.");
-			iSBN = saisieISBN();		
-			// TODO
-			} 
+			iSBN = saisieISBN();
+
+			operationOK = cds.supprimerCD(iSBN);
+
+			if(operationOK){
+				System.out.println("Le CD a été supprimé !");
+			}
+			else{
+				System.out.println("Le CD n'est pas présent");
+			}
 		}
+
 			
 			
 		/**
@@ -197,8 +214,10 @@ public class CDThequeManager {
 			boolean operationOK;
 			String artiste;
 			String titre;
-		
-	        // TODO
+
+			artiste = lireInfo("artiste");
+			titre = lireInfo("titre");
+			operationOK = cds.supprimerCDparArtisteTitre(artiste, titre);
 		}
 
 		/**
@@ -213,9 +232,12 @@ public class CDThequeManager {
 		
 			System.out.println("Supprimer un CD par le style et le titre de l'album.");
 			style = lireInfo("   style");
-			titre = lireInfo("   titre");	
+			titre = lireInfo("   titre");
 
-			// TODO
+
+			style = lireInfo("artiste");
+			titre = lireInfo("titre");
+			operationOK = cds.supprimerCDparArtisteTitre(style, titre);
 		}
 
 		/**
@@ -227,7 +249,16 @@ public class CDThequeManager {
 			CDAudio cdTrouve; // le CD recherché
 			long iSBN;
 
-	        // TODO
+			System.out.println("Recherche d'un CD par son ISBN");
+			iSBN = saisieISBN();
+			cdTrouve = cds.rechercherCD(iSBN);
+
+			if(cdTrouve != null){
+				System.out.println("le CD : " + cdTrouve);
+			}
+			else{
+				System.out.println("Aucun CD ne correspond");
+			}
 		}
 
 		/**
@@ -239,8 +270,17 @@ public class CDThequeManager {
 			CDAudio cdTrouve; // le CD recherché
 			String artiste;
 			String titre;
-		
-	        //TODO
+
+			System.out.println("Recherche d'un CD par son artiste et son titre d'album");
+			artiste= lireInfo("artiste");
+			titre = lireInfo("titre");
+			cdTrouve = cds.getCDparArtisteTitre(artiste,titre);
+			if(cdTrouve != null){
+				System.out.println("le CD : " + cdTrouve);
+			}
+			else{
+				System.out.println("Aucun CD ne correspond");
+			}
 		}
 		
 		/**
@@ -252,8 +292,17 @@ public class CDThequeManager {
 			CDAudio cdTrouve; // le CD recherché
 			String style;
 			String titre;
-		
-	     // TODO
+
+			System.out.println("Recherche d'un CD par son artiste et son titre d'album");
+			style= lireInfo("style");
+			titre = lireInfo("titre");
+			cdTrouve = cds.getCDparArtisteTitre(style,titre);
+			if(cdTrouve != null){
+				System.out.println("le CD : " + cdTrouve);
+			}
+			else{
+				System.out.println("Aucun CD ne correspond");
+			}
 		}
 
 		/**

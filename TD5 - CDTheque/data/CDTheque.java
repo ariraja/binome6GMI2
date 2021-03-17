@@ -4,32 +4,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.ListIterator;
 
 public class CDTheque implements Iterable<CDAudio> {
 	// la liste ordonnée des CDs
-	// TODO
 	private List <CDAudio> catalogue;
 
 	
 	// indexations des CDs
-	// TODO
 	private Map<Long, CDAudio> cdByIsbn;
 	private Map<String, CDAudio> cdByartistetitle;
 	private Map<String, CDAudio> cdByStyletitle;
 
-
-    
 	/**
 	 * constructeur de CDTheque
 	 * initialise la liste et les index
 	 */
 	public CDTheque(){
-
 		catalogue=new ArrayList<CDAudio>();
 		cdByIsbn=new HashMap<Long, CDAudio>();
 		cdByartistetitle= new HashMap<String, CDAudio>();
 		cdByStyletitle= new HashMap<String, CDAudio>();
-
 	}
    
 	/**
@@ -39,14 +35,14 @@ public class CDTheque implements Iterable<CDAudio> {
 	 * doublon dans l'indexation ou un problème lors de l'ajout dans la liste
 	 */
 	public boolean ajouterCD(CDAudio cd) {
-		boolean x =false;
 		if(cdByIsbn.containsKey(cd.getISBN())){
-			return x;
+			return false;
 		}
 		else {
 			cdByIsbn.put(cd.getISBN(),cd);
 			cdByartistetitle.put(clefArtisteTitre(cd),cd);
 			cdByStyletitle.put(clefStyleTitre(cd),cd);
+			return true;
 		}
 	}
    
@@ -73,8 +69,13 @@ public class CDTheque implements Iterable<CDAudio> {
 	 * supprimé
 	 */
 	public boolean supprimerCD(CDAudio cd) {
-		// TODO
-
+		boolean ok = catalogue.remove(cd);
+		if(ok){
+			cdByIsbn.remove(cd.getISBN(),cd);
+			cdByartistetitle.remove(clefArtisteTitre(cd),cd);
+			cdByStyletitle.remove(clefStyleTitre(cd),cd);
+		}
+		return ok;
 	}
 			
 	/**
@@ -85,7 +86,7 @@ public class CDTheque implements Iterable<CDAudio> {
 	 */
 	public boolean supprimerCD(long iSBN) {
 		// suppression du CD en se servant de son indexation par ISBN
-		return supprimerCD(iSBN, indexISBN);
+		return supprimerCD(iSBN, cdByIsbn);
 	}
 		
 	/**
@@ -99,7 +100,7 @@ public class CDTheque implements Iterable<CDAudio> {
 	public boolean supprimerCDparArtisteTitre(String artiste, String titre) {
 		// suppression du CD en se servant de son indexation par artiste et
 		// titre
-		return supprimerCD(clef(artiste, titre), cdByArtistTitle); 
+		return supprimerCD(clef(artiste, titre), cdByartistetitle);
 	}
 
 	/**
@@ -113,7 +114,7 @@ public class CDTheque implements Iterable<CDAudio> {
 	public boolean supprimerCDparStyleTitre(String style, String titre) {
 		// suppression du CD en se servant de son indexation par style et
 		// titre
-		return supprimerCD(clef(style, titre), cdByStyleTitle); // indexStyleTitre est la map 
+		return supprimerCD(clef(style, titre), cdByStyletitle); // indexStyleTitre est la map
 	}
 
 	/**
@@ -123,9 +124,7 @@ public class CDTheque implements Iterable<CDAudio> {
 	 * CDThèque, null sinon
 	 */
 	public CDAudio rechercherCD(long iSBN) {
-
-		// TODO
-		
+		return cdByIsbn.get(iSBN);
 	}
 
 	/**
@@ -136,10 +135,10 @@ public class CDTheque implements Iterable<CDAudio> {
 	 * CDThèque, null sinon
 	 */
 	public CDAudio getCDparArtisteTitre(String artiste, String titre) {
-
-		// TODO
+		return cdByartistetitle.get(clef(artiste,titre));
 	}
-	
+
+
 	/**
 	 * recherche d'un CD par son style et titre
 	 * @param style l'artiste du CD à rechercher
@@ -148,8 +147,7 @@ public class CDTheque implements Iterable<CDAudio> {
 	 * dans la CDThèque, null sinon
 	 */
 	public CDAudio getCDparStyleTitre(String style, String titre) {
-		
-		// TODO
+		return cdByStyletitle.get(clef(style,titre));
 	}
 
 	/**
@@ -198,8 +196,13 @@ public class CDTheque implements Iterable<CDAudio> {
 	 * @return true si le CD était présent dans la CDTheque et a bien été
 	 * supprimé
 	 */
-	private <K> boolean supprimerCD(K clef, Map<K,CDAudio> index) { 
-        // TODO
+	private <K> boolean supprimerCD(K clef, Map<K,CDAudio> index) {
+		CDAudio cd;
+		if(!index.containsKey(clef)){
+			return false;
+		}
+		cd = index.get(clef);
+		return supprimerCD(cd);
 	}
 
 	/**
@@ -220,7 +223,7 @@ public class CDTheque implements Iterable<CDAudio> {
 		}
 		clefResultat = parties[0].toUpperCase();
 		for (int i = 1; i < parties.length; i++) {
-			clefResultat += "-" + parties[i].toUpperCase();
+			clefResultat += "#" + parties[i].toUpperCase();
 		}
 		return clefResultat;
 	}
@@ -240,9 +243,6 @@ public class CDTheque implements Iterable<CDAudio> {
 	 * @return la clef constituée à partir du style et du titre du CD
 	 */
 	private static String clefStyleTitre(CDAudio cd) {
-		
 		return clef(cd.getStyle(),cd.getTitre());
 	}
-
-
 }
