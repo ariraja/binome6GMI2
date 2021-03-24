@@ -5,7 +5,6 @@ import java.io.FileReader;
 
 public class LireFichier {
     public static void main(String args[]){
-        EcritFichier();
         LireFichier();
     }
     public static void LireFichier(){

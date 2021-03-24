@@ -12,7 +12,7 @@ public class ListRep {
             for (int i=0;i<t.length;i++) {
                 r2=new File(rep.getAbsolutePath()+" "+t[i]);
                     if (r2.isDirectory())  listRep(r2);
-                    else System.out.println(r2.getAbsolutePath());
+                    else System.out.println(r2.getAbsolutePath() + "\t");
             }
         }
     }

@@ -1,6 +1,5 @@
 package td7;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
@@ -18,5 +17,8 @@ public class EcritFichier {
         catch (Exception e){
             System.out.println("Erreur"+e);
         }
+    }
+    public static void main(String args[]){
+        EcrireFichier();
     }
 }
